@@ -11,6 +11,8 @@ var config = {
 
 var pool = new pg.Pool(config);
 
+// -> /delete/48
+
 router.get('/', function(req, res){
   // This will be replaced with a SELECT statement to SQL
   pool.connect(function(errorConnectingToDatabase, client, done){
@@ -49,6 +51,30 @@ router.post('/new', function(req, res){
       client.query('INSERT INTO books (title, author, edition, publisher) VALUES ($1, $2, $3, $4);',
         [newBook.title, newBook.author, newBook.edition, newBook.publisher],
         function(errorMakingQuery, result){
+          done();
+          if(errorMakingQuery) {
+            console.log('Error making the database query: ', errorMakingQuery);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(201);
+          }
+        });
+    }
+  });
+});
+
+router.delete('/delete/:id', function(req, res){
+  var bookId = req.params.id;
+  console.log('book id to delete', bookId);
+//connecting to and deleting row from db
+  pool.connect(function(errorConnectingToDatabase, client, done){
+    if(errorConnectingToDatabase) {
+      console.log('Error connecting to database: ', errorConnectingToDatabase);
+      res.sendStatus(500);
+    } else {
+      client.query('DELETE FROM books WHERE id=$1;', //SQL query
+        [bookId],
+        function(errorMakingQuery, result){ //function that runs after query takes place
           done();
           if(errorMakingQuery) {
             console.log('Error making the database query: ', errorMakingQuery);
