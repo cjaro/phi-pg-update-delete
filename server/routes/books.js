@@ -80,7 +80,56 @@ router.delete('/delete/:id', function(req, res){
             console.log('Error making the database query: ', errorMakingQuery);
             res.sendStatus(500);
           } else {
-            res.sendStatus(201);
+            res.sendStatus(202);
+          }
+        });
+    }
+  });
+});
+
+//for update -> /save/48
+router.put('/save/:id', function(req, res){
+  var bookId = req.params.id;
+  var bookObject = req.body;
+  console.log(req.body);
+  pool.connect(function(errorConnectingToDatabase, client, done){
+    if(errorConnectingToDatabase) {
+      console.log('Error connecting to database: ', errorConnectingToDatabase);
+      res.sendStatus(500);
+    } else {
+      client.query('UPDATE books SET title=$1 WHERE id=$2;',
+        [bookObject.title, bookId],
+        function(errorMakingQuery, result){
+          done();
+          if(errorMakingQuery) {
+            console.log('Error making the database query: ', errorMakingQuery);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(202);
+          }
+        });
+    }
+  });
+});
+
+router.put('/save/:id', function(req, res){
+  var bookId = req.params.id;
+  var bookObject = req.body;
+  console.log(req.body);
+  pool.connect(function(errorConnectingToDatabase, client, done){
+    if(errorConnectingToDatabase) {
+      console.log('Error connecting to database: ', errorConnectingToDatabase);
+      res.sendStatus(500);
+    } else {
+      client.query('UPDATE books SET (title, author, edition, publisher) VALUES ($1, $2, $3, $4);',
+        [bookObject.title, bookObject.author, bookObject.edition, bookObject.publisher, bookId],
+        function(errorMakingQuery, result){
+          done();
+          if(errorMakingQuery) {
+            console.log('Error making the database query: ', errorMakingQuery);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(202);
           }
         });
     }

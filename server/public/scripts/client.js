@@ -13,11 +13,12 @@ $(document).ready(function(){
           var currentBook = response[i]; //loops through books - this is an object
           var $newBook = $('<tr>'); //creating new row for each book
           $newBook.data('id', currentBook.id);
-          $newBook.append('<td>' + currentBook.title + '</td>');
-          $newBook.append('<td>' + currentBook.author + '</td>');
-          $newBook.append('<td>' + currentBook.edition + '</td>');
-          $newBook.append('<td>' + currentBook.publisher + '</td>');
+          $newBook.append('<td><input value="'+ currentBook.title + '" class="bookTitle"></td>');
+          $newBook.append('<td><input value="'+ currentBook.author + '" class="bookAuthor"></td>');
+          $newBook.append('<td><input value="'+ currentBook.edition + '" class="bookEdition"></td>');
+          $newBook.append('<td><input value="'+ currentBook.publisher + '" class="bookPublisher"></td>');
           $newBook.append('<td><button class="deleteButton">Delete</button></td>');
+          $newBook.append('<td><button class="saveButton">Save</button></td>');
           $('#bookShelf').prepend($newBook);
         }
       }
@@ -58,4 +59,30 @@ $(document).ready(function(){
       }
     })
   });
+
+  $('#bookShelf').on('click', '.saveButton', function(){
+    var idBookSave = $(this).parent().parent().data().id;
+    var titleBookSave = $(this).parent().parent().find('.bookTitle').val();
+    var authorBookSave = $(this).parent().parent().find('.bookAuthor').val();
+    var editionBookSave = $(this).parent().parent().find('.bookAuthor').val();
+    var publisherBookSave = $(this).parent().parent().find('.bookPublisher').val();
+    var bookObjectSave = {
+      title: titleBookSave,
+      author: authorBookSave,
+      edition: editionBookSave,
+      publisher: publisherBookSave
+    };
+    $.ajax({
+      type: 'PUT',
+      url: 'books/save/' + idBookSave,
+      data: bookObjectSave,
+      success: function(response){
+        console.log(response);
+        getBookData();
+      }
+    })
+  });
+  //
+
+
 });//doc ready
