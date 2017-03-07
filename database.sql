@@ -45,3 +45,7 @@ INSERT INTO books (title, author) VALUES ('Turbo Twenty-three', 'Janet Evanovich
 INSERT INTO books (title, author) VALUES ('Cross the Line', 'James Patterson');
 INSERT INTO books (title, author) VALUES ('The Whistler', 'John Grisham');
 INSERT INTO books (title, author) VALUES ('Island of Glass', 'Nora Roberts');
+
+ALTER TABLE books
+		ADD  COLUMN edition int,
+		ADD COLUMN  publisher varchar(120);

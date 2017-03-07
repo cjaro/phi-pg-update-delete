@@ -1,7 +1,6 @@
 {
   "name": "book-shelf",
   "version": "1.0.0",
-  "description": "",
   "main": "server/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,8 +9,19 @@
   "author": "Luke Schlangen",
   "license": "ISC",
   "dependencies": {
+    "angular": "^1.6.2",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "pg": "^6.1.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjaro/phi-pg-update-delete.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cjaro/phi-pg-update-delete/issues"
+  },
+  "homepage": "https://github.com/cjaro/phi-pg-update-delete#readme",
+  "description": ""
 }

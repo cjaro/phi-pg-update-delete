@@ -64,7 +64,7 @@ $(document).ready(function(){
     var idBookSave = $(this).parent().parent().data().id;
     var titleBookSave = $(this).parent().parent().find('.bookTitle').val();
     var authorBookSave = $(this).parent().parent().find('.bookAuthor').val();
-    var editionBookSave = $(this).parent().parent().find('.bookAuthor').val();
+    var editionBookSave = $(this).parent().parent().find('.bookEdition').val();
     var publisherBookSave = $(this).parent().parent().find('.bookPublisher').val();
     var bookObjectSave = {
       title: titleBookSave,
@@ -72,6 +72,7 @@ $(document).ready(function(){
       edition: editionBookSave,
       publisher: publisherBookSave
     };
+
     $.ajax({
       type: 'PUT',
       url: 'books/save/' + idBookSave,

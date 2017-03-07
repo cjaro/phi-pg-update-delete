@@ -39,7 +39,6 @@ router.get('/', function(req, res){
 router.post('/new', function(req, res){
   // This will be replaced with an INSERT statement to SQL
   var newBook = req.body;
-
   pool.connect(function(errorConnectingToDatabase, client, done){
     if(errorConnectingToDatabase) {
       // There was an error connecting to the database
@@ -87,41 +86,16 @@ router.delete('/delete/:id', function(req, res){
   });
 });
 
-//for update -> /save/48
 router.put('/save/:id', function(req, res){
   var bookId = req.params.id;
   var bookObject = req.body;
-  console.log(req.body);
+  console.log("book object: ", bookObject);
   pool.connect(function(errorConnectingToDatabase, client, done){
     if(errorConnectingToDatabase) {
       console.log('Error connecting to database: ', errorConnectingToDatabase);
       res.sendStatus(500);
     } else {
-      client.query('UPDATE books SET title=$1 WHERE id=$2;',
-        [bookObject.title, bookId],
-        function(errorMakingQuery, result){
-          done();
-          if(errorMakingQuery) {
-            console.log('Error making the database query: ', errorMakingQuery);
-            res.sendStatus(500);
-          } else {
-            res.sendStatus(202);
-          }
-        });
-    }
-  });
-});
-
-router.put('/save/:id', function(req, res){
-  var bookId = req.params.id;
-  var bookObject = req.body;
-  console.log(req.body);
-  pool.connect(function(errorConnectingToDatabase, client, done){
-    if(errorConnectingToDatabase) {
-      console.log('Error connecting to database: ', errorConnectingToDatabase);
-      res.sendStatus(500);
-    } else {
-      client.query('UPDATE books SET (title, author, edition, publisher) VALUES ($1, $2, $3, $4);',
+      client.query('UPDATE books SET title=$1, author=$2, edition=$3, publisher=$4 WHERE id=$5;',
         [bookObject.title, bookObject.author, bookObject.edition, bookObject.publisher, bookId],
         function(errorMakingQuery, result){
           done();
@@ -129,6 +103,7 @@ router.put('/save/:id', function(req, res){
             console.log('Error making the database query: ', errorMakingQuery);
             res.sendStatus(500);
           } else {
+            console.log('it worked or something');
             res.sendStatus(202);
           }
         });
